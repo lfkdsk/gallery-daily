@@ -14,23 +14,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: secrets
-  steps:
-  - name: Checkout daily repo
-    uses: actions/checkout@v3
-    continue-on-error: true # allow error.      
-    with:
-      ref: daily
-      path: daily_public        
+    steps:
+    - name: Checkout daily repo
+      uses: actions/checkout@v3
+      continue-on-error: true # allow error.      
+      with:
+        ref: daily
+        path: daily_public        
 
-  - name: Install Dependencies & Build
-    run: |
-      npm install
-      npm ci
-      node build.js
-  - name: Copy Files
-    run: |
-      ls
-      cp download.png ./daily_public/daily.png
-      date_dir=$(./daily_public/`date +%Y%m%d`)
-      mkdir -p $date_dir
-      cp download.png $date_dir/daily.png
+    - name: Install Dependencies & Build
+      run: |
+        npm install
+        npm ci
+        node build.js
+    - name: Copy Files
+      run: |
+        ls
+        cp download.png ./daily_public/daily.png
+        date_dir=$(./daily_public/`date +%Y%m%d`)
+        mkdir -p $date_dir
+        cp download.png $date_dir/daily.png
+    - name: Deploy Png
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_dir: ./daily_public
+        publish_branch: daily
+        github_token: ${{ secrets.GH_PAGES_DEPLOY }}
+        user_name: ${{ env.GIT_USER }}
+        user_email: ${{ env.GIT_EMAIL }}
+        commit_msg: ${{ github.event.head_commit.message }}          
