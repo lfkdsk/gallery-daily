@@ -1,6 +1,8 @@
 name: run build.py
 
 on:
+  push:
+    branch: [main]
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
@@ -37,10 +39,10 @@ jobs:
       run: |
         ls
         mkdir -p ./daily_public/
-        cp download.png ./daily_public/daily.png
+        cp -rf download.png ./daily_public/daily.png
         date_dir="./daily_public/`date +%Y%m%d`"
         mkdir -p $date_dir
-        cp download.png $date_dir/daily.png
+        cp -rf download.png $date_dir/daily.png
     - name: Deploy Png
       uses: peaceiris/actions-gh-pages@v3
       with:
