@@ -1,0 +1,36 @@
+name: run build.py
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+env:
+  GIT_USER: lfkdsk # change to yourself
+  GIT_EMAIL: lfkdsk@gmail.com # change to yourself
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: secrets
+  steps:
+  - name: Checkout daily repo
+    uses: actions/checkout@v3
+    continue-on-error: true # allow error.      
+    with:
+      ref: daily
+      path: daily_public        
+
+  - name: Install Dependencies & Build
+    run: |
+      npm install
+      npm ci
+      node build.js
+  - name: Copy Files
+    run: |
+      ls
+      cp download.png ./daily_public/daily.png
+      date_dir=$(./daily_public/`date +%Y%m%d`)
+      mkdir -p $date_dir
+      cp download.png $date_dir/daily.png
