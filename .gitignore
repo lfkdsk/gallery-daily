@@ -204,4 +204,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,node
 
-./daily_public
+/daily_public

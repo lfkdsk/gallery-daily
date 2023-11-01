@@ -21,7 +21,7 @@ const puppeteer = require('puppeteer');
    console.log('Start downloading');
 
    await page.click('[id="downloadbox"]');
-   await page.waitForTimeout(5000);
+   await page.waitForTimeout(10000);
 
    console.log('Complete');
    await browser.close();

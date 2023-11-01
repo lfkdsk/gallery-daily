@@ -1,8 +1,6 @@
 name: run build.py
 
 on:
-  push:
-    branch: [main]
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
