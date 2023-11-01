@@ -8,7 +8,7 @@ const puppeteer = require('puppeteer');
       height: 1440,
     });       
    await page.goto(
-      'http://localhost:4000/gallery/random',
+      'https://lfkdsk.github.io/gallery/random',
       { waitUntil: 'domcontentloaded' },
    );
    var path = require('path');
