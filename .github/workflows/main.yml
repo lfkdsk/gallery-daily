@@ -40,7 +40,7 @@ jobs:
         ls
         mkdir -p ./daily_public/
         cp download.png ./daily_public/daily.png
-        date_dir=$(./daily_public/`date +%Y%m%d`)
+        date_dir="/daily_public/`date +%Y%m%d`"
         mkdir -p $date_dir
         cp download.png $date_dir/daily.png
     - name: Deploy Png
