@@ -26,7 +26,10 @@ jobs:
       with:
         ref: daily
         path: daily_public        
-
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
     - name: Install Dependencies & Build
       run: |
         npm install
