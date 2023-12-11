@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
-   const browser = await puppeteer.launch({headless: "new"});
+   const browser = await puppeteer.launch({headless: 'new'});
    const page = await browser.newPage();
    await page.setViewport({
       width: 2560,
@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer');
     });       
    await page.goto(
       'https://lfkdsk.github.io/gallery/random?daily=true',
-      { waitUntil: 'domcontentloaded' },
+      { waitUntil: 'networkidle0' },
    );
    var path = require('path');
    const client = await page.target().createCDPSession();
