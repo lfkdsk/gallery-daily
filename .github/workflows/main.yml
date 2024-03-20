@@ -38,6 +38,7 @@ jobs:
         ls
         mkdir -p ./daily_public/
         cp -rf download.png ./daily_public/daily.png
+        cp -rf year0.png ./daily_public/year0.png
         date_dir="./daily_public/`date +%Y%m%d`"
         mkdir -p $date_dir
         cp -rf download.png $date_dir/daily.png

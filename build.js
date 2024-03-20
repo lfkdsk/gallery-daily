@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
-   const browser = await puppeteer.launch({headless: 'new'});
+   const browser = await puppeteer.launch({headless: false});
    const page = await browser.newPage();
    await page.setViewport({
       width: 2560,
@@ -23,6 +23,19 @@ const puppeteer = require('puppeteer');
    await page.click('[id="downloadbox"]');
    await page.waitForTimeout(10000);
 
+   await page.goto(
+      'https://lfkdsk.github.io/gallery/status',
+      { waitUntil: 'networkidle0' },
+   );   
+   var path = require('path');
+   await client.send('Page.setDownloadBehavior', {
+      behavior: 'allow',
+      downloadPath: path.resolve(),
+   });
+   await page.click('[id="download"]');
+   await page.waitForTimeout(10000);
+
    console.log('Complete');
+   
    await browser.close();
 })();
