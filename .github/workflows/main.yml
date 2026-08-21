@@ -35,13 +35,28 @@ jobs:
         node build.js
     - name: Copy Files
       run: |
+        set -euo pipefail
         ls
+        # build.js 现在按真实格式命名（站点那边的下载已经是 JPEG 了），所以这里
+        # 用通配拿，站点以后再换格式也不用改这个 workflow。
+        # `|| true`：set -o pipefail 下 ls 无匹配会让整条管道失败，
+        # 那样就跑不到下面那句能说清原因的报错了。
+        daily=$(ls download.* 2>/dev/null | head -1 || true)
+        year0=$(ls year0.* 2>/dev/null | head -1 || true)
+        if [ -z "$daily" ] || [ -z "$year0" ]; then
+          echo "build.js 没有产出预期文件：daily='$daily' year0='$year0'"
+          exit 1
+        fi
         mkdir -p ./daily_public/
-        cp -rf download.png ./daily_public/daily.png
-        cp -rf year0.png ./daily_public/year0.png
+        # daily.png 是历史名字（README 和外链在用），内容其实是 JPEG——浏览器按
+        # 内容识别，能正常显示；同时也按真实扩展名发一份，方便以后迁过去。
+        cp -f "$daily" "./daily_public/daily${daily#download}"
+        cp -f "$daily" ./daily_public/daily.png
+        cp -f "$year0" "./daily_public/$year0"
         date_dir="./daily_public/`date +%Y%m%d`"
         mkdir -p $date_dir
-        cp -rf download.png $date_dir/daily.png
+        cp -f "$daily" "$date_dir/daily${daily#download}"
+        cp -f "$daily" $date_dir/daily.png
     - name: Deploy Png
       uses: peaceiris/actions-gh-pages@v3
       with:
