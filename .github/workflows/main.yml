@@ -15,12 +15,12 @@ jobs:
     environment: secrets
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # 没有 npm install / npm ci：build.js 零依赖，只用 Node 内置模块。
       # 以前这一步要装 puppeteer（连带下载一整个 Chromium），是整个 job 里最慢、
       # 也最容易卡住的地方。
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
@@ -31,7 +31,7 @@ jobs:
         run: node build.js
 
       - name: Checkout daily branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         continue-on-error: true # 分支还不存在时允许失败
         with:
           ref: daily
@@ -49,7 +49,7 @@ jobs:
           ls -l ./daily_public
 
       - name: Deploy SVG
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           publish_dir: ./daily_public
           publish_branch: daily
