@@ -1,5 +1,9 @@
 {
-  "dependencies": {
-    "puppeteer": "^21.4.1"
+  "name": "gallery-daily",
+  "private": true,
+  "description": "从 gallery 的 sqlite.db / feed.json 生成每日 SVG",
+  "scripts": {
+    "build": "node build.js",
+    "test": "node --test"
   }
 }
